@@ -10,7 +10,7 @@ public class Helicopter extends Aircraft implements AircraftOptions {
 
     @Override
     public String parking() {
-        this.status= Aircraft.Status.PARKING;
+        this.status= Status.PARKING;
         String message="Status of "+model+" has switched to: "+status;
         System.out.println(message);
         return message;
@@ -18,7 +18,7 @@ public class Helicopter extends Aircraft implements AircraftOptions {
 
     @Override
     public String steering() {
-        this.status= Aircraft.Aircraft.Status.STEERING;
+        this.status= Status.STEERING;
         String message="Status of "+model+" has switched to: "+status;
         System.out.println(message);
         return message;
@@ -26,7 +26,7 @@ public class Helicopter extends Aircraft implements AircraftOptions {
 
     @Override
     public String stop_on_lane() {
-        this.status= Aircraft.Aircraft.Status.STOP_ON_LANE;
+        this.status= Status.STOP_ON_LANE;
         String message="Status of "+model+" has switched to: "+status;
         System.out.println(message);
         return message;
@@ -34,7 +34,7 @@ public class Helicopter extends Aircraft implements AircraftOptions {
 
     @Override
     public String acceleration() {
-        this.status= Aircraft.Aircraft.Status.ACCELERATION;
+        this.status= Status.ACCELERATION;
         String message="Status of "+model+" has switched to: "+status;
         System.out.println(message);
         return message;
@@ -42,7 +42,7 @@ public class Helicopter extends Aircraft implements AircraftOptions {
 
     @Override
     public String takeoff() {
-        this.status= Aircraft.Aircraft.Status.TAKEOFF;
+        this.status=Status.TAKEOFF;
         String message="Status of "+model+" has switched to: "+status;
         System.out.println(message);
         return message;
@@ -50,7 +50,7 @@ public class Helicopter extends Aircraft implements AircraftOptions {
 
     @Override
     public String flight() {
-        this.status= Aircraft.Aircraft.Status.FLIGHT;
+        this.status= Status.FLIGHT;
         String message="Status of "+model+" has switched to: "+status;
         System.out.println(message);
         return message;
@@ -58,7 +58,7 @@ public class Helicopter extends Aircraft implements AircraftOptions {
 
     @Override
     public String landing() {
-        this.status= Aircraft.Aircraft.Status.LANDING;
+        this.status= Status.LANDING;
         String message="Status of "+model+" has switched to: "+status;
         System.out.println(message);
         return message;
