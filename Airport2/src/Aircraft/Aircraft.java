@@ -1,6 +1,6 @@
 package Aircraft;
 
-public class Aircraft{
+public abstract class Aircraft {
     protected enum Status {PARKING, STEERING, STOP_ON_LANE, ACCELERATION, TAKEOFF, FLIGHT, LANDING};
     protected enum Type {CARGO, PASSENGER};
 
