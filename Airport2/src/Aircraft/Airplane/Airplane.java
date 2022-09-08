@@ -66,4 +66,11 @@ public class Airplane extends Aircraft implements AircraftOptions {
         System.out.println(message);
         return message;
     }
+
+    @Override
+    public String get_info(){
+        String message="Airplane info: "+status+" "+type+" "+model;
+        System.out.println(message);
+        return message;
+    }
 }

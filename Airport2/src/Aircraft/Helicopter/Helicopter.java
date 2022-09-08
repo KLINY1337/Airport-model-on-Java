@@ -63,4 +63,11 @@ public class Helicopter extends Aircraft implements AircraftOptions {
         System.out.println(message);
         return message;
     }
+
+    @Override
+    public String get_info(){
+        String message="Helicopter info: "+status+" "+type+" "+model;
+        System.out.println(message);
+        return message;
+    }
 }

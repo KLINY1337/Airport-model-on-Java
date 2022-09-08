@@ -8,4 +8,5 @@ public interface AircraftOptions {
     String takeoff();
     String flight();
     String landing();
+    String get_info();
 }
