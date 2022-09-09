@@ -28,7 +28,7 @@ public class Airplane extends Aircraft implements AircraftOptions {
     }
 
     @Override
-    public String stop_on_lane() {
+    public String stopOnLane() {
         this.status=Status.STOP_ON_LANE;
         String message="Status of "+model+" has switched to: "+status;
         System.out.println(message);
@@ -68,7 +68,7 @@ public class Airplane extends Aircraft implements AircraftOptions {
     }
 
     @Override
-    public String get_info(){
+    public String getInfo(){
         String message="Airplane info: "+status+" "+type+" "+model;
         System.out.println(message);
         return message;
