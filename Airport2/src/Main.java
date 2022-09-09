@@ -12,7 +12,7 @@ public class Main {
 
         System.out.println("Hello world!");
         Airplane obj=new Airplane("LANDING","PASSENGER","BOEING737-800");
-
+        obj.parking();
     }
 }
 
