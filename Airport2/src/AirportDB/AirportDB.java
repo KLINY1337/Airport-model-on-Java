@@ -7,6 +7,7 @@ public class  AirportDB {
     protected ArrayList<FlightNote> table;
     public AirportDB(){
         ArrayList<FlightNote> table = new ArrayList<FlightNote>();
+        this.table=table;
     }
     public void add(FlightNote element){
         table.add(element);
