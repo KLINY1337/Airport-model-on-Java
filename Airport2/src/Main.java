@@ -5,8 +5,13 @@ import AppUI.AppUI;
 import EventGenerator.EventGenerator;
 import Terminal.Terminal;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 
 public class Main {
+
+    protected static long millis;
     public static void main(String[] args) {
 
         AirportDB db = new AirportDB();
@@ -25,6 +30,17 @@ public class Main {
 
         AppUI app = new AppUI();
     }
-}
 
-// hello world
+    protected static void TimeTracker(){
+        //get current time
+        //get time of last event
+        //if time of last event + 1 sec = current time
+        //then create new event
+        long millis_current = System.currentTimeMillis();
+
+        if(millis_current-millis>=1000){
+            millis=millis_current;
+            logger.logger.log("TICK");
+        }
+    }
+}

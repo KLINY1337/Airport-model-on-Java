@@ -37,6 +37,6 @@ public class Terminal implements logger{
 
 
     public void deleteEvent(String num){
-
+        database.delete(num);
     }
 }
