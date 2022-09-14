@@ -12,7 +12,10 @@ public class Main {
         AirportDB db = new AirportDB();
         Terminal terminal=new Terminal("OPEN",db);
         EventGenerator event = new EventGenerator(db,terminal);
-        event.createEventAirplane("1","LANDING","PASSENGER","BOEING");
+        event.createEventAirplane("LANDING", "CARGO PLANE", "BOEING 737-800", "MOSCOW");
+        event.createEventAirplane("LANDING", "CARGO PLANE", "BOEING 737-800", "MOSCOW");
+        event.createEventAirplane("LANDING", "CARGO PLANE", "BOEING 737-800", "MOSCOW");
+        event.createEventAirplane("LANDING", "CARGO PLANE", "BOEING 737-800", "MOSCOW");
         db.printAll();
 
         AppUI app = new AppUI();

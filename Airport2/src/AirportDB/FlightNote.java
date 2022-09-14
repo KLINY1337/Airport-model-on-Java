@@ -39,6 +39,7 @@ public class FlightNote {
         for (int i = 0; i < getFieldsTable().length; i++){
             System.out.print(getFieldsTable()[i] + " ");
         }
+        System.out.print("\n");
     }
 
 }

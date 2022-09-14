@@ -6,7 +6,6 @@ import AirportDB.AirportDB;
 import Terminal.Terminal;
 
 public class EventGenerator {
-    protected String id;
     AirportDB database;
     Terminal terminal;
     public EventGenerator(AirportDB database, Terminal terminal){
@@ -14,16 +13,16 @@ public class EventGenerator {
         this.terminal=terminal;
     }
 
-    public void createEventAirplane(String id, String status, String type, String model){
-        this.id=id;
+    public void createEventAirplane(String status, String type, String model, String city){
+
         Airplane plane=new Airplane(status, type, model);
-        terminal.addEvent(plane);
+        terminal.addEvent(plane, city,type);
     }
 
-    public void createEventHelicopter(String id, String status, String type, String model){
-        this.id=id;
+    public void createEventHelicopter(String status, String type, String model,String city){
+
         Helicopter heli=new Helicopter(status, type, model);
-        terminal.addEvent(heli);
+        terminal.addEvent(heli, city, type);
     }
 
 }

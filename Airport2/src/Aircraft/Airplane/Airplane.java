@@ -4,10 +4,8 @@ import Aircraft.Aircraft;
 import Aircraft.Interface.AircraftOptions;
 import logger.logger;
 
-import java.io.IOException;
 
 public class Airplane extends Aircraft implements AircraftOptions, logger {
-
     public Airplane(String status, String type, String model) {
         super(status, type, model);
     }

@@ -1,16 +1,16 @@
 package Terminal;
 
 import Aircraft.Aircraft;
-import Aircraft.Airplane.Airplane;
 import AirportDB.AirportDB;
 import logger.logger;
 import AirportDB.FlightNote;
+import java.util.Date;
 public class Terminal implements logger{
     private enum Status{OPEN, CLOSE};
     private Status status;
     private int peopleCurrent=0;
     protected AirportDB database;
-
+    private int totalEvents=0;
     public Terminal(String status, AirportDB database){
         switch (status){
             case "OPEN":
@@ -27,10 +27,14 @@ public class Terminal implements logger{
         this.database=database;
     }
 
-    public void addEvent(Aircraft aircraft){
-        FlightNote note=new FlightNote("1","1","1","1","1","1","1");
+    public void addEvent(Aircraft aircraft, String city, String type/*прилет вылет*/){
+        String num=Integer.toString(totalEvents);
+        this.totalEvents+=1;
+        Date time=new Date();
+        FlightNote note=new FlightNote(num,type,city,time.toString(),aircraft.status.toString(),aircraft.type.toString(),aircraft.model);
         database.add(note);
     }
+
 
     public void deleteEvent(String num){
 
