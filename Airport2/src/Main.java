@@ -16,6 +16,11 @@ public class Main {
         event.createEventAirplane("LANDING", "CARGO PLANE", "BOEING 737-800", "MOSCOW");
         event.createEventAirplane("LANDING", "CARGO PLANE", "BOEING 737-800", "MOSCOW");
         event.createEventAirplane("LANDING", "CARGO PLANE", "BOEING 737-800", "MOSCOW");
+        event.createRandomEvent();
+        event.createRandomEvent();
+        event.createRandomEvent();
+        event.createRandomEvent();
+
         db.printAll();
 
         AppUI app = new AppUI();
