@@ -28,7 +28,7 @@ public class Main {
 
         db.printAll();
 
-        AppUI app = new AppUI();
+//        AppUI app = new AppUI();
     }
 
     protected static void TimeTracker(){
