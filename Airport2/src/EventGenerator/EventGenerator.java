@@ -28,12 +28,14 @@ public class EventGenerator {
 
         Airplane plane=new Airplane(status, type, model);
         terminal.addEvent(plane, city,type);
+        //вызвать анимацию на полосе
     }
 
     public void createEventHelicopter(String status, String type, String model,String city){
 
         Helicopter heli=new Helicopter(status, type, model);
         terminal.addEvent(heli, city, type);
+        //вызвать анимацию на полосе
     }
 
     public void createRandomEvent(){

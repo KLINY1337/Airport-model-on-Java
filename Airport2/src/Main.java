@@ -4,7 +4,9 @@ import AirportDB.AirportDB;
 import AppUI.AppUI;
 import EventGenerator.EventGenerator;
 import Terminal.Terminal;
+import AirportDB.AirportDBmySQL;
 
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -12,21 +14,10 @@ import java.util.TimeZone;
 public class Main {
 
     protected static long millis;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
-        AirportDB db = new AirportDB();
-        Terminal terminal=new Terminal("OPEN",db);
-        EventGenerator event = new EventGenerator(db,terminal);
-        event.createEventAirplane("LANDING", "CARGO PLANE", "BOEING 737-800", "MOSCOW");
-        event.createEventAirplane("LANDING", "CARGO PLANE", "BOEING 737-800", "MOSCOW");
-        event.createEventAirplane("LANDING", "CARGO PLANE", "BOEING 737-800", "MOSCOW");
-        event.createEventAirplane("LANDING", "CARGO PLANE", "BOEING 737-800", "MOSCOW");
-        event.createRandomEvent();
-        event.createRandomEvent();
-        event.createRandomEvent();
-        event.createRandomEvent();
-
-        db.printAll();
+        AirportDBmySQL db = new AirportDBmySQL();
+        db.checkConnection();
 
 //        AppUI app = new AppUI();
     }
