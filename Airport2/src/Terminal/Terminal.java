@@ -1,17 +1,20 @@
 package Terminal;
 
 import Aircraft.Aircraft;
-import AirportDB.AirportDB;
+import AirportDB.AirportDBmySQL;
 import logger.logger;
 import AirportDB.FlightNote;
+
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 public class Terminal implements logger{
     private enum Status{OPEN, CLOSE};
     private Status status;
     private int peopleCurrent=0;
-    protected AirportDB database;
+    protected AirportDBmySQL database;
     private int totalEvents=0;
-    public Terminal(String status, AirportDB database){
+    public Terminal(String status, AirportDBmySQL database){
         switch (status){
             case "OPEN":
                 this.status=Status.OPEN;
@@ -27,16 +30,18 @@ public class Terminal implements logger{
         this.database=database;
     }
 
-    public void addEvent(Aircraft aircraft, String city, String type/*прилет вылет*/){
+    public void addEvent(String flightCode, String eventType, String city, Aircraft aircraft) throws SQLException {
         String num=Integer.toString(totalEvents);
         this.totalEvents+=1;
         Date time=new Date();
-        FlightNote note=new FlightNote(num,type,city,time.toString(),aircraft.status.toString(),aircraft.type.toString(),aircraft.model);
-        database.add(note);
+        Timestamp dateOfEvent=new Timestamp(time.getTime());
+        //FlightNote note=new FlightNote(num,type,city,time.toString(),aircraft.status.toString(),aircraft.type.toString(),aircraft.model);
+        database.pasteAircraftStatus(flightCode, eventType, city, dateOfEvent, aircraft.status.toString(), aircraft.type.toString(), aircraft.model);
+
     }
 
 
-    public void deleteEvent(String num){
-        database.delete(num);
-    }
+//    public void deleteEvent(String num){
+//        database.delete(num);
+//    }
 }

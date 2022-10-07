@@ -2,7 +2,7 @@ package Aircraft;
 
 public abstract class Aircraft {
     public enum Status {PARKING, STEERING, STOP_ON_LANE, ACCELERATION, TAKEOFF, FLIGHT, LANDING};
-    public enum Type {CARGO_HELI, PASSENGER_HELI, CARGO_PLANE, PASSENGER_PLANE};
+    public enum Type {AIRPLANE, HELICOPTER};
     // type - прилет вылет
     // status - статус нормальный
     // aircraft_type - HELI
@@ -47,17 +47,11 @@ public abstract class Aircraft {
         }
 
         switch (type){
-            case "CARGO HELI":
-                this.type=Type.CARGO_HELI;
+            case "AIRPLANE":
+                this.type=Type.AIRPLANE;
                 break;
-            case "PASSENGER HELI":
-                this.type=Type.PASSENGER_HELI;
-                break;
-            case "CARGO PLANE":
-                this.type=Type.CARGO_PLANE;
-                break;
-            case "PASSENGER PLANE":
-                this.type=Type.PASSENGER_PLANE;
+            case "HELICOPTER":
+                this.type=Type.HELICOPTER;
                 break;
             default:
                 System.out.println("UNDEFINED TYPE OF AIRCRAFT");

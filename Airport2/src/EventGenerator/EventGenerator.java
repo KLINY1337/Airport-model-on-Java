@@ -2,48 +2,76 @@ package EventGenerator;
 
 import Aircraft.Airplane.Airplane;
 import Aircraft.Helicopter.Helicopter;
-import AirportDB.AirportDB;
+import AirportDB.AirportDBmySQL;
 import Terminal.Terminal;
 
+import java.sql.SQLException;
+import java.util.Random;
+
 public class EventGenerator {
-    AirportDB database;
+    AirportDBmySQL database;
     Terminal terminal;
 
-    protected final double _plane_const = 0.9;
+    protected final double _plane_const = 0.1;
     //base of all possible props for random generation
     protected String[] _models_plane = {"BOEING 737-800", "BOEING 777-300", "AIRBUS A320-200", "AIRBUS A330-200", "AIRBUS A350-900", "AIRBUS A380-800", "SSJ-100", "Cessna 172", "Cessna 150"};
     protected String[] _models_helicopter = {"MI-8", "MI-24", "MI-26", "MI-28"};
     protected String[] _cities = {"Omsk", "Moscow", "Kazan", "Krasnodar", "Krasnoyarsk", "Novosibirsk", "Vladivostok", "Yekaterinburg", "Samara", "Rostov-on-Don", "Ufa", "Chelyabinsk", "Perm", "Khabarovsk", "Voronezh", "Nizhny Novgorod", "Volgograd", "Saratov", "Tyumen", "Izhevsk", "Kemerovo", "Orenburg", "Barnaul", "Tolyatti", "Ulan-Ude", "Irkutsk", "Yaroslavl", "Tomsk", "Kirov", "Kazan", "Krasnodar", "Krasnoyarsk", "Novosibirsk", "Vladivostok", "Yekaterinburg", "Samara", "Rostov-on-Don", "Ufa", "Chelyabinsk", "Perm", "Khabarovsk", "Voronezh", "Nizhny Novgorod", "Volgograd", "Saratov", "Tyumen", "Izhevsk", "Kemerovo", "Orenburg", "Barnaul", "Tolyatti", "Ulan-Ude", "Irkutsk", "Yaroslavl", "Tomsk", "Kirov"};
-    protected String[] _aircraft_type = {"CARGO PLANE", "PASSENGER PLANE"};
-    protected String[] _aircraft_type_heli = {"CARGO HELI", "PASSENGER HELI"};
     protected String[] _status = {"PARKING", "STEERING", "STOP_ON_LANE", "ACCELERATION", "TAKEOFF", "FLIGHT", "LANDING"};
     protected String[] _status_spawn = {"FLIGHT", "PARKING"};
+    protected String[] _event_type = {"LANDING","TAKEOFF"};
 
-    public EventGenerator(AirportDB database, Terminal terminal){
+    public EventGenerator(AirportDBmySQL database, Terminal terminal){
         this.database = database;
         this.terminal=terminal;
     }
 
-    public void createEventAirplane(String status, String type, String model, String city){
+    public void createEventAirplane(String flightCode, String eventType, String city, String status, String type, String model) throws SQLException {
 
         Airplane plane=new Airplane(status, type, model);
-        terminal.addEvent(plane, city,type);
+        terminal.addEvent(flightCode,eventType,city,plane);
         //вызвать анимацию на полосе
     }
 
-    public void createEventHelicopter(String status, String type, String model,String city){
+    public void createEventHelicopter(String flightCode, String eventType, String city, String status, String type, String model) throws SQLException {
 
         Helicopter heli=new Helicopter(status, type, model);
-        terminal.addEvent(heli, city, type);
+        terminal.addEvent(flightCode,eventType,city,heli);
         //вызвать анимацию на полосе
     }
 
-    public void createRandomEvent(){
+    private String createFlightCode(){
+        Random r = new Random();
+        String c1 = String.valueOf((char) (r.nextInt(26) + 'A'));
+        String c2 = String.valueOf((char) (r.nextInt(26)+ 'A'));
+        String n1 = String.valueOf(r.nextInt(10));
+        String n2 = String.valueOf(r.nextInt(10));
+        String n3 = String.valueOf(r.nextInt(10));
+        String n4 = String.valueOf(r.nextInt(10));
+        System.out.println(c1+c2+n1+n2+n3+n4);
+        return c1+c2+n1+n2+n3+n4;
+    }
+
+    public void tryCreateRandomEvent() throws SQLException {
         double random = Math.random();
         if (random < _plane_const) {
-            createEventAirplane(_status_spawn[(int) (Math.random() * _status_spawn.length)], _aircraft_type[(int) (Math.random() * _aircraft_type.length)], _models_plane[(int) (Math.random() * _models_plane.length)], _cities[(int) (Math.random() * _cities.length)]);
-        } else {
-            createEventHelicopter(_status_spawn[(int) (Math.random() * _status_spawn.length)], _aircraft_type_heli[(int) (Math.random() * _aircraft_type_heli.length)], _models_helicopter[(int) (Math.random() * _models_helicopter.length)], _cities[(int) (Math.random() * _cities.length)]);
+            if (Math.random() > 0.3) {
+                createEventAirplane(createFlightCode(),
+                        _event_type[(int) (Math.random() * _event_type.length)],
+                        _cities[(int) (Math.random() * _cities.length)],
+                        _status_spawn[(int) (Math.random() * _status_spawn.length)],
+                        "AIRPLANE",
+                        _models_plane[(int) (Math.random() * _models_plane.length)]
+                );
+            } else {
+                createEventHelicopter(createFlightCode(),
+                        _event_type[(int) (Math.random() * _event_type.length)],
+                        _cities[(int) (Math.random() * _cities.length)],
+                        _status_spawn[(int) (Math.random() * _status_spawn.length)],
+                        "HELICOPTER",
+                        _models_helicopter[(int) (Math.random() * _models_helicopter.length)]
+                );
+            }
         }
     }
 

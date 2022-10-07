@@ -2,9 +2,11 @@ package AirportDB;
 
 
 import java.sql.*;
-import java.text.MessageFormat;
 
 import logger.logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 public class AirportDBmySQL implements logger {
 
     private String url;
@@ -68,5 +70,32 @@ public class AirportDBmySQL implements logger {
             logger.log("TABLE aircraftparking: UPDATED (DELETE)");
         }
     }
+
+//  where param = "ParkingPlace"; value = "SU1763"
+    public JSONArray selectStatus(String table, String param, String value) throws SQLException {
+        try(Connection connection  =  DriverManager.getConnection(url,username,password)){
+            Statement statement=connection.createStatement();
+            String command="SELECT * FROM "+table+" WHERE "+ param +" = '"+value+"'";
+            System.out.println(command);
+            ResultSet rs = statement.executeQuery(command);
+
+            JSONArray json = new JSONArray();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            while(rs.next()) {
+                int numColumns = rsmd.getColumnCount();
+                JSONObject obj = new JSONObject();
+                for (int i=1; i<=numColumns; i++) {
+                    String column_name = rsmd.getColumnName(i);
+                    obj.put(column_name, rs.getObject(column_name));
+                }
+                json.add(obj);
+            }
+            connection.close();
+            logger.log("TABLE aircraftstatus: SELECT "+param + " = " + value);
+            return json;
+
+        }
+    }
 }
+
 
