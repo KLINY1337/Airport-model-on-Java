@@ -1,10 +1,11 @@
 package AirportDB;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
-public class AirportDBmySQL {
+import java.sql.*;
+import java.text.MessageFormat;
+
+import logger.logger;
+public class AirportDBmySQL implements logger {
 
     private String url;
     private String username;
@@ -16,10 +17,56 @@ public class AirportDBmySQL {
         password="RootPassword-1337";
     }
 
-    public void checkConnection() throws ClassNotFoundException, SQLException {
+    public Boolean checkConnection() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        try(Connection connection= DriverManager.getConnection(url,username,password)){
-            System.out.println("connected");
+        try(Connection connection = DriverManager.getConnection(url,username,password)) {
+            logger.log("CONNECTION TO " + url +": SUCCESS");
+            connection.close();
+            return true;
+        }
+    }
+
+    public void pasteAircraftStatus(String flightCode, String eventType, String city, Timestamp dateOfEvent, String currentAircraftStatus, String aircraftType, String aircraftModel) throws SQLException {
+        try(Connection connection = DriverManager.getConnection(url,username,password)) {
+            Statement statement=connection.createStatement();
+            String command= "INSERT aircraftstatus(FlightCode, EventType, City, DateOfEvent, CurrentAircraftStatus, AircraftType, AircraftModel) VALUES ('"+flightCode+"', '"+eventType+"', '"+city+"', '"+dateOfEvent+"', '"+currentAircraftStatus+"', '"+aircraftType+"', '"+aircraftModel+"')";
+            statement.executeUpdate(command);
+            connection.close();
+            logger.log("TABLE aircraftstatus: UPDATED (PASTE)");
+        }
+    }
+
+    public void pasteAircraftParking(int parkingPlace, String aircraftType, String aircraftModel) throws SQLException {
+        try(Connection connection = DriverManager.getConnection(url,username,password)) {
+            Statement statement=connection.createStatement();
+            String command= "INSERT aircraftparking(ParkingPlace, AircraftType, AircraftModel) VALUES ('"+parkingPlace+"', '"+aircraftType+"', '"+aircraftModel+"')";
+            System.out.println(command);
+            statement.executeUpdate(command);
+            connection.close();
+            logger.log("TABLE aircraftparking: UPDATED (PASTE)");
+
+        }
+    }
+
+    public void deleteAircraftStatus(String flightCode) throws SQLException{
+        try(Connection connection = DriverManager.getConnection(url,username,password)){
+            Statement statement = connection.createStatement();
+            String command = "DELETE FROM aircraftstatus WHERE FlightCode = '"+flightCode+"'";
+            statement.executeUpdate(command);
+            connection.close();
+            logger.log("TABLE aircraftstatus: UPDATED (DELETE)");
+        }
+
+    }
+
+    public void deleteAircraftParking(int parkingPlace) throws SQLException{
+        try(Connection connection=DriverManager.getConnection(url,username,password)){
+            Statement statement=connection.createStatement();
+            String command="DELETE FROM aircraftparking WHERE ParkingPlace = "+parkingPlace;
+            statement.executeUpdate(command);
+            connection.close();
+            logger.log("TABLE aircraftparking: UPDATED (DELETE)");
         }
     }
 }
+
