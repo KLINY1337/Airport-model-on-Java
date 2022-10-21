@@ -4,11 +4,16 @@ import Aircraft.Aircraft;
 import AirportDB.AirportDBmySQL;
 import logger.logger;
 import AirportDB.FlightNote;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayDeque;
 import java.util.Date;
 public class Terminal implements logger{
+
+
     private enum Status{OPEN, CLOSE};
     private Status status;
     private int peopleCurrent=0;
@@ -40,6 +45,18 @@ public class Terminal implements logger{
 
     }
 
+    public void handleEvent(ArrayDeque<String> eventQueue) throws SQLException {
+        String flightCode=eventQueue.pollFirst();
+        JSONArray event=database.selectStatus("aircraftstatus", "FlightCode", flightCode);
+        String eventType;
+        String currentAircraftStatus;
+        if (!event.isEmpty()){
+            JSONObject obj = (JSONObject) event.get(0);
+            eventType= (String) obj.get("EventType");
+            currentAircraftStatus= (String) obj.get("CurrentAircraftStatus");
+            //Доделать управление самолетомз
+        }
+    }
 
 //    public void deleteEvent(String num){
 //        database.delete(num);

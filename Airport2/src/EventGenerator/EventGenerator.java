@@ -6,13 +6,15 @@ import AirportDB.AirportDBmySQL;
 import Terminal.Terminal;
 
 import java.sql.SQLException;
+import java.util.ArrayDeque;
+import java.util.Queue;
 import java.util.Random;
 
 public class EventGenerator {
     AirportDBmySQL database;
     Terminal terminal;
 
-    protected final double _plane_const = 0.1;
+    protected final double _plane_const = 0.3;
     //base of all possible props for random generation
     protected String[] _models_plane = {"BOEING 737-800", "BOEING 777-300", "AIRBUS A320-200", "AIRBUS A330-200", "AIRBUS A350-900", "AIRBUS A380-800", "SSJ-100", "Cessna 172", "Cessna 150"};
     protected String[] _models_helicopter = {"MI-8", "MI-24", "MI-26", "MI-28"};
@@ -52,27 +54,39 @@ public class EventGenerator {
         return c1+c2+n1+n2+n3+n4;
     }
 
-    public void tryCreateRandomEvent() throws SQLException {
+    public Boolean tryCreateRandomEvent(ArrayDeque<String> eventQueue) throws SQLException {
         double random = Math.random();
         if (random < _plane_const) {
-            if (Math.random() > 0.3) {
-                createEventAirplane(createFlightCode(),
-                        _event_type[(int) (Math.random() * _event_type.length)],
+            String flightCode=createFlightCode();
+            String eventType=_event_type[(int) (Math.random() * _event_type.length)];
+            String statusSpawn;
+            if (eventType=="LANDING"){
+               statusSpawn="FLIGHT";
+            }
+            else{
+                statusSpawn="PARKING";
+            }
+            if (Math.random() > 0.5) {
+                createEventAirplane(flightCode,
+                        eventType,
                         _cities[(int) (Math.random() * _cities.length)],
-                        _status_spawn[(int) (Math.random() * _status_spawn.length)],
+                        statusSpawn,
                         "AIRPLANE",
                         _models_plane[(int) (Math.random() * _models_plane.length)]
                 );
             } else {
-                createEventHelicopter(createFlightCode(),
-                        _event_type[(int) (Math.random() * _event_type.length)],
+                createEventHelicopter(flightCode,
+                        eventType,
                         _cities[(int) (Math.random() * _cities.length)],
-                        _status_spawn[(int) (Math.random() * _status_spawn.length)],
+                        statusSpawn,
                         "HELICOPTER",
                         _models_helicopter[(int) (Math.random() * _models_helicopter.length)]
                 );
             }
+            eventQueue.offerLast(flightCode);
+           return true;
         }
+        return false;
     }
 
 }

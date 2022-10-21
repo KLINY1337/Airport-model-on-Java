@@ -4,9 +4,7 @@ import AirportDB.AirportDBmySQL;
 import EventGenerator.EventGenerator;
 import Terminal.Terminal;
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
+import java.util.*;
 import java.time.Clock;
 
 import java.sql.SQLException;
@@ -22,6 +20,8 @@ public class Application {
     private Terminal terminal;
     private EventGenerator gen;
 
+    private ArrayDeque<String> eventQueue;
+
     public void startApp() throws SQLException, ClassNotFoundException, InterruptedException {
         this.db = new AirportDBmySQL();
         db.checkConnection();
@@ -30,13 +30,16 @@ public class Application {
 
         this.terminal = new Terminal("OPEN",db);
         this.gen = new EventGenerator(db, terminal);
+        this.eventQueue=new ArrayDeque<String>();
 
         while(true) {
 //            if (date.getTime() - millis >= 1000) {
                 millis = date.getTime();
                 logger.logger.log("Trying create new event");
                 Timestamp timestamp = new Timestamp(date.getTime());
-                gen.tryCreateRandomEvent();
+                gen.tryCreateRandomEvent(eventQueue);
+                terminal.handleEvent(eventQueue);
+
 //            }
             Thread.sleep(1000);
         }
